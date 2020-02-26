@@ -1,5 +1,6 @@
 import React from 'react';
 import {AppContext} from './../context/ContextProvider';
+import Navbar from './Navbar';
 
 class Dashboard extends React.Component {
 
@@ -16,7 +17,8 @@ class Dashboard extends React.Component {
 
     render() {
         return (
-            <div>                         
+            <div>
+                <Navbar/>                       
                 Welcome to Dashboard
         </div>
         )

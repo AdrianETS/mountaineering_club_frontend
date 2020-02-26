@@ -4,6 +4,8 @@ import './App.css';
 import Dashboard from "./components/Dashboard";
 import Navbar from "./components/Navbar";
 import { ContextProvider } from './context/ContextProvider';
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+
 
 class App extends React.Component {
 
@@ -16,8 +18,11 @@ class App extends React.Component {
     return (
       <div>
         <ContextProvider>
-          <Navbar />
-          <Dashboard />
+          <Router>
+            <Switch>
+              <Route path="/" exact component={Dashboard} />
+            </Switch>
+          </Router>
         </ContextProvider>
       </div>
     )
