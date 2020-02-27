@@ -5,7 +5,8 @@ import Dashboard from "./components/Dashboard";
 import Navbar from "./components/Navbar";
 import { ContextProvider } from './context/ContextProvider';
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-
+import ListMembers from "./components/ListMembers";
+import EditMember from "./components/EditMember";
 
 class App extends React.Component {
 
@@ -21,6 +22,8 @@ class App extends React.Component {
           <Router>
             <Switch>
               <Route path="/" exact component={Dashboard} />
+              <Route path="/listmembers" exact component={ListMembers} />
+              <Route path="/editmember" exact component={EditMember} />
             </Switch>
           </Router>
         </ContextProvider>

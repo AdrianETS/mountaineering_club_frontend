@@ -11,10 +11,6 @@ class Dashboard extends React.Component {
 
     }
 
-    componentDidMount(){
-        this.context.getMemberList();
-    }
-
     render() {
         return (
             <div>
