@@ -12,6 +12,8 @@ class EditMember extends React.Component {
         super(props);
         this.state = {
             member: "",
+            originalMember: "",
+            editedMember: false,
             userId: "",
             editEnabled: false,
             id: this.props.location?.state?.id
@@ -27,16 +29,24 @@ class EditMember extends React.Component {
         this.handleMemberType = this.handleMemberType.bind(this);
         this.handleResponsibilityAgreementSigned = this.handleResponsibilityAgreementSigned.bind(this);
 
+        this.goBack = this.goBack.bind(this);
+        this.isMemberUpdated = this.isMemberUpdated.bind(this);
+
+
     }
 
     componentDidMount() {
         this.context.getMemberInfo(this.state.id)
-            .then(member => this.setState({ member }));
+            .then(member => this.setState({ member, originalMember: member }));
 
     }
 
     componentDidUpdate() {
 
+    }
+
+    isMemberUpdated() {
+        return ((JSON.stringify(this.state.originalMember) === JSON.stringify(this.state.member)) ? this.setState({ editedMember: false }) : this.setState({ editedMember: true }));
     }
 
     enableEdit() {
@@ -71,8 +81,12 @@ class EditMember extends React.Component {
         this.setState({ member: { ...this.state.member, responsibilityAgreementSigned: event.target.value } });
     }
 
+    goBack() {
+        this.props.history.push("/listmembers");
+    }
+
     render() {
-        //let member = this.context.selectedMember;
+
         return (
             <div>
                 <Navbar />
@@ -123,16 +137,64 @@ class EditMember extends React.Component {
                                                 <br />
                                             </div>
 
-                                            
-                                            <button type="button" class="btn btn-success btn-lg" onClick={this.enableEdit}>Edit user</button>
-                                            
-                                            
-                                            
-                                            <button type="button" class="btn btn-primary btn-lg" onClick={()=>this.context.editMember(this.state.member)}>Submit</button>
-                                            
+
+                                            <button type="button" className="btn btn-success btn-lg" onClick={this.enableEdit}>Edit user</button>
+
+
+
+                                            <button type="button" className="btn btn-primary btn-lg" data-toggle="modal" data-target="#editModal" disabled={!this.state.editEnabled} onClick={this.isMemberUpdated} >Submit</button>
+
+
+                                            <div className="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalTitle" aria-hidden="true">
+                                                <div className="modal-dialog modal-dialog-centered" role="document">
+                                                    <div className="modal-content">
+                                                        <div className="modal-header">
+                                                            <h5 className="modal-title" id="exampleModalLongTitle">Confirmation</h5>
+                                                            <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                                                                <span aria-hidden="true">&times;</span>
+                                                            </button>
+                                                        </div>
+                                                        <div className="modal-body">
+                                                            Do you want to continue?
+                                                            </div>
+                                                        <div className="modal-footer">
+                                                            <button type="button" className="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                                            <button type="button" className="btn btn-primary" onClick={() => (this.context.editMember(this.state.member)).then(()=>this.props.history.push("/editmember"))} data-dismiss="modal">Submit</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+
+                                            <button type="button" className="btn btn-danger btn-lg" data-toggle="modal" data-target="#deleteModal" disabled={!this.state.editEnabled}>Delete user
+                                            </button>
+
+                                            <div className="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalTitle" aria-hidden="true">
+                                                <div className="modal-dialog modal-dialog-centered" role="document">
+                                                    <div className="modal-content">
+                                                        <div className="modal-header">
+                                                            <h5 className="modal-title" id="exampleModalLongTitle">Confirmation</h5>
+                                                            <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                                                                <span aria-hidden="true">&times;</span>
+                                                            </button>
+                                                        </div>
+                                                        <div className="modal-body">
+                                                            Are you sure you want to delete the user {this.state.member.name}?
+                                                            </div>
+                                                        <div className="modal-footer">
+                                                            <button type="button" className="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                                            <button type="button" className="btn btn-primary" onClick={() => (this.context.deleteMember(this.state.member._id)).then(this.goBack)} data-dismiss="modal">Delete</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+
 
                                             <div className="float-right">
-                                                <button type="button" class="btn btn-secondary btn-lg btn-secondary">Cancel</button>
+                                                <button type="button" className="btn btn-secondary btn-lg btn-secondary" onClick={this.goBack}>Cancel</button>
                                             </div>
                                         </form>
                                     </div>

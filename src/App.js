@@ -7,6 +7,10 @@ import { ContextProvider } from './context/ContextProvider';
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import ListMembers from "./components/ListMembers";
 import EditMember from "./components/EditMember";
+import AddMember from "./components/AddMember";
+import EditExcursion from './components/EditExcursion';
+import ListExcursions from './components/ListExcursions';
+import ListControl from "./components/ListControl";
 
 class App extends React.Component {
 
@@ -22,8 +26,12 @@ class App extends React.Component {
           <Router>
             <Switch>
               <Route path="/" exact component={Dashboard} />
+              <Route path="/editexcursion" exact component={EditExcursion} />
+              <Route path="/listexcursions" exact component={ListExcursions} />
               <Route path="/listmembers" exact component={ListMembers} />
               <Route path="/editmember" exact component={EditMember} />
+              <Route path="/addmember" exact component={AddMember} />
+              <Route path="/listcontrol" exact component={ListControl} />
             </Switch>
           </Router>
         </ContextProvider>
