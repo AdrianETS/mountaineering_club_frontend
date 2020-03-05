@@ -23,6 +23,7 @@ export class ContextProvider extends React.Component {
 
         this.getExcursionList = this.getExcursionList.bind(this);
         this.getExcursionInfo = this.getExcursionInfo.bind(this);
+        this.editExcursion = this.editExcursion.bind(this);
     }
 
     getMemberList() {
@@ -31,6 +32,7 @@ export class ContextProvider extends React.Component {
                 .then(res => res.json())
                 .then((json) => {
                     this.setState({ membersList: json });
+                    resolve(json);
                 })
         })
     }
@@ -118,6 +120,28 @@ export class ContextProvider extends React.Component {
         })
     }
 
+    editExcursion(excursion, usersIds) {
+        return new Promise((resolve, reject) => {
+            fetch('http://127.0.0.1:3001/excursions', {
+                method: 'PUT',
+                body: JSON.stringify({
+                    _id: excursion._id,
+                    name: excursion.name,
+                    date: excursion.date,
+                    users_id: usersIds
+                }),
+                headers: {
+                    "Content-type": "application/json; charset=UTF-8"
+                }
+            })
+
+                .then(response => response.json())
+                .then(json => resolve(json));
+
+
+        })
+    }
+
 
 
     deleteMember(id) {
@@ -136,7 +160,7 @@ export class ContextProvider extends React.Component {
             <AppContext.Provider
                 value={{
                     ...this.state, getMemberList: this.getMemberList, getMemberInfo: this.getMemberInfo, editMember: this.editMember, deleteMember: this.deleteMember,
-                    addMember: this.addMember, getExcursionList: this.getExcursionList, getExcursionInfo: this.getExcursionInfo
+                    addMember: this.addMember, getExcursionList: this.getExcursionList, getExcursionInfo: this.getExcursionInfo, editExcursion: this.editExcursion
                 }}
             >
 

@@ -12,20 +12,61 @@ class EditExcursion extends React.Component {
         super(props);
         this.state = {
             excursion: "",
+            usersInExcursion: [], // listado de las ids de los usuarios que se han unido. Es el atributo que pasaremos como parámetro a la función que invocamos con el submit
+            fullListOfMembers: [], // la id de todos los usuarios que existen actualmente en members
+            restOfMembers: [], //usuarios que no se han unido a esta excursion
             editEnabled: false,
             id: this.props.location?.state?.id
         }
 
         this.goBack = this.goBack.bind(this);
+        this.deleteMemberInExcursion = this.deleteMemberInExcursion.bind(this);
+        this.addMemberInExcursion = this.addMemberInExcursion.bind(this);
+        this.handleExcursionName = this.handleExcursionName.bind(this);
+        this.handleExcursionDate = this.handleExcursionDate.bind(this);
+        this.setMembersOfAddSection = this.setMembersOfAddSection.bind(this);
     }
 
-    componentDidMount(){
-        this.context.getExcursionInfo(this.state.id).
-        then(excursion => this.setState({excursion: excursion}));
+    componentDidMount() {
+        this.context.getExcursionInfo(this.state.id)
+        .then(excursion => this.setState({ excursion: excursion, usersInExcursion: excursion.members_info}))
+        .then(()=> this.context.getMemberList())
+        .then(()=> this.setMembersOfAddSection());        
+    }
+
+
+    setMembersOfAddSection(){ //seteamos el atributo que recoge las ids de los usuarios que no se han unido a la excursion en pantalla
+        let restOfMembers= [];      
+        restOfMembers = this.context.membersList.filter(member => 
+            this.state.excursion.users_id.indexOf(member._id) < 0
+            
+        );
+        this.setState({restOfMembers: restOfMembers});
     }
 
     goBack() {
         this.props.history.push("/listexcursions");
+    }
+
+    handleExcursionName(event){
+        this.setState({ excursion: { ...this.state.excursion, name: event.target.value }});
+    }
+
+    handleExcursionDate(event){
+        this.setState({ excursion: { ...this.state.excursion, date: event.target.value }});
+    }
+
+    addMemberInExcursion(id){
+        let restOfMembers = this.state.restOfMembers.filter(member => member._id != id);
+        let listOfMembersUpdated = this.state.usersInExcursion.push(this.context.membersList.find(e => e._id == id));
+        this.setState({restOfMembers: restOfMembers, usersId: listOfMembersUpdated });
+    }
+
+    deleteMemberInExcursion(id){
+      let newRestOfMembers = this.state.restOfMembers;
+      newRestOfMembers.push(this.context.membersList.find(e => e._id == id));
+      let newUsersInExcursion = this.state.usersInExcursion.filter(user => user._id !=id);
+      this.setState({restOfMembers: newRestOfMembers, usersInExcursion: newUsersInExcursion});
     }
 
     render() {
@@ -44,23 +85,67 @@ class EditExcursion extends React.Component {
                                         <form className="form-signin">
                                             <div className="form-label-group">
                                                 <label for="inpurExcursionName">Name</label>
-                                                <input type="text" id="inpurExcursionName" className="form-control" value = {this.state.excursion.name} placeholder="Name" required autofocus />
+                                                <input type="text" id="inpurExcursionName" className="form-control" value={this.state.excursion.name} onChange = {this.handleExcursionName} placeholder="Name" required autofocus />
 
                                             </div>
 
                                             <div className="form-label-group">
                                                 <label for="inputDate">Date</label>
-                                                <input type="text" id="inputDate" className="form-control" value = {this.state.excursion.date} placeholder="Date" required />
-
+                                                <input type="text" id="inputDate" className="form-control" value={this.state.excursion.date} onChange = {this.handleExcursionDate} placeholder="Date" required />
                                             </div>
+
+                                            <br/>
                                             <div className="form-label-group">
-                                                <label for="inputUsersId">User's id</label>
-                                                <input type="text" id="inputUsersId" className="form-control" value = {this.state.excursion.users_id} placeholder="User's id" required />
-                                                <br />
+                                                <label for="inputDate">Members that have joined:</label>
                                             </div>
 
 
-                                            <button type="button" className="btn btn-primary btn-lg" >Submit</button>
+                                            {this.state.usersInExcursion.map(member =>
+                                            
+                                                <div>
+                                                    <br/>
+                                                            
+                                                            Name: {member.name} Id: {member._id} 
+                                                            <span className="ml-2"></span>
+                                                            <i className="fas fa-info-circle" data-toggle="collapse" data-target={"#collapseId" + member._id} role="button" aria-expanded="false" aria-controls={"#collapseId" + member._id}>
+                                                            
+                                                            <div className="collapse" id={"collapseId" + member._id} font-family>
+                                                                <div className="card card-body">
+                                                                    Name: {member.name}
+                                                                    <br/>
+                                                                    Surname: {member.surname}
+                                                                    <br/>
+                                                                    Birth Date: {member.birthDate}
+                                                                    <br/>
+                                                                    Club Id: {member.clubId}
+                                                                    <br/>
+                                                                    License Number: {member.licenseNumber}
+                                                                    <br/>
+                                                                    Type: {member.type}
+                                                                 </div>
+                                                                </div>
+                                                            </i>
+                                                            <span className="ml-2"></span>
+
+                                                            <i className="fas fa-trash-alt" onClick = {()=>this.deleteMemberInExcursion(member._id)}></i> 
+                                                            
+                                                            
+                                                </div>
+                                            )}
+
+                                            <br/>
+                                            <div className="form-label-group">
+                                                <label for="inputDate">Add other members</label>
+                                            </div>
+
+    
+                                                {this.state.restOfMembers && this.state.restOfMembers.map(member =>
+                                                <div> <br/>{member.name} <span className="ml-2"></span> <i class="fas fa-plus-circle" onClick = {() => this.addMemberInExcursion(member._id)}></i></div>
+                                              )}
+                                            
+
+                                            <br/>                    
+                                            <button type="button" className="btn btn-primary btn-lg">Submit</button>
 
 
                                             <div className="float-right">
