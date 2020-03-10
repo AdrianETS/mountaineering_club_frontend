@@ -15,7 +15,7 @@ class Navbar extends React.Component {
                     <div className="dropdown">
                             <a href="#" className="dropdown-toggle" data-toggle="dropdown">Excursions</a>
                             <div className="dropdown-menu">
-                                <a className="nav-link active" href={"/#"}><Link to="/addmember">Add excursion</Link></a>
+                                <a className="nav-link active" href={"/#"}><Link to="/addexcursion">Add excursion</Link></a>
                                 <a className="nav-link active" href={"/#"}><Link to="/listexcursions">List excursions</Link></a>
                             </div>
                         </div>

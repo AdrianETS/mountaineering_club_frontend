@@ -52,7 +52,6 @@ class AddMember extends React.Component{
         this.setState({ member: { ...this.state.member, responsibilityAgreementSigned: event.target.value } });
     }
 
-
     cancelButton() {
         this.props.history.push("/listmembers");
     }

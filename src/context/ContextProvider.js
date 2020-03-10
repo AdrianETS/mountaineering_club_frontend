@@ -20,7 +20,7 @@ export class ContextProvider extends React.Component {
         this.editMember = this.editMember.bind(this);
         this.deleteMember = this.deleteMember.bind(this);
         this.addMember = this.addMember.bind(this);
-
+        this.addExcursion = this.addExcursion.bind(this);
         this.getExcursionList = this.getExcursionList.bind(this);
         this.getExcursionInfo = this.getExcursionInfo.bind(this);
         this.editExcursion = this.editExcursion.bind(this);
@@ -89,8 +89,25 @@ export class ContextProvider extends React.Component {
                     "Content-type": "application/json; charset=UTF-8"
                 }
             })
-                .then(response => response.json())
-                .then(json => console.log(json))
+                .then(response => response.json());
+        })
+    }
+
+    addExcursion(excursion, users) {
+        let usersAdded = users.map(member => member._id);
+        return new Promise((resolve, reject) => {
+            fetch('http://127.0.0.1:3001/excursions', {
+                method: 'POST',
+                body: JSON.stringify({
+                    name: excursion.name,
+                    date: excursion.date,
+                    users_id: usersAdded
+                }),
+                headers: {
+                    "Content-type": "application/json; charset=UTF-8"
+                }
+            })
+                .then(response => response.json());
         })
     }
 
@@ -120,7 +137,8 @@ export class ContextProvider extends React.Component {
         })
     }
 
-    editExcursion(excursion, usersIds) {
+    editExcursion(excursion, usersInExcursion) {
+        let usersIdsAdded = usersInExcursion.map(user => user._id);
         return new Promise((resolve, reject) => {
             fetch('http://127.0.0.1:3001/excursions', {
                 method: 'PUT',
@@ -128,7 +146,7 @@ export class ContextProvider extends React.Component {
                     _id: excursion._id,
                     name: excursion.name,
                     date: excursion.date,
-                    users_id: usersIds
+                    users_id: usersIdsAdded
                 }),
                 headers: {
                     "Content-type": "application/json; charset=UTF-8"
@@ -142,14 +160,21 @@ export class ContextProvider extends React.Component {
         })
     }
 
-
-
     deleteMember(id) {
         return new Promise((resolve, reject) => {
             fetch('http://127.0.0.1:3001/members/delete/' + id)
                 .then(res => res.json())
                 .then(() => {
-                    console.log("user deleted");
+                    resolve();
+                })
+        })
+    }
+
+    deleteExcursion(id) {
+        return new Promise((resolve, reject) => {
+            fetch('http://127.0.0.1:3001/excursions/delete/' + id)
+                .then(res => res.json())
+                .then(() => {
                     resolve();
                 })
         })
@@ -160,7 +185,8 @@ export class ContextProvider extends React.Component {
             <AppContext.Provider
                 value={{
                     ...this.state, getMemberList: this.getMemberList, getMemberInfo: this.getMemberInfo, editMember: this.editMember, deleteMember: this.deleteMember,
-                    addMember: this.addMember, getExcursionList: this.getExcursionList, getExcursionInfo: this.getExcursionInfo, editExcursion: this.editExcursion
+                    addMember: this.addMember, getExcursionList: this.getExcursionList, getExcursionInfo: this.getExcursionInfo, editExcursion: this.editExcursion,
+                    addExcursion: this.addExcursion, deleteExcursion: this.deleteExcursion
                 }}
             >
 

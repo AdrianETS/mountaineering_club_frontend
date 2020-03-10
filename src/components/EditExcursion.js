@@ -140,13 +140,35 @@ class EditExcursion extends React.Component {
 
     
                                                 {this.state.restOfMembers && this.state.restOfMembers.map(member =>
-                                                <div> <br/>{member.name} <span className="ml-2"></span> <i class="fas fa-plus-circle" onClick = {() => this.addMemberInExcursion(member._id)}></i></div>
+                                                <div> <br/>Name: {member.name} Surname: {member.surname} <span className="ml-2"></span> <i class="fas fa-plus-circle" onClick = {() => this.addMemberInExcursion(member._id)}></i></div>
                                               )}
                                             
 
                                             <br/>                    
-                                            <button type="button" className="btn btn-primary btn-lg">Submit</button>
+                                            <button type="button" className="btn btn-primary btn-lg" onClick = {()=>(this.context.editExcursion(this.state.excursion, this.state.usersInExcursion)).then(()=>this.goBack())}>Submit</button>
+                                            
+                                            <button type="button" className="btn btn-danger btn-lg" data-toggle="modal" data-target="#deleteModal">Delete
+                                            </button>
 
+                                            <div className="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalTitle" aria-hidden="true">
+                                                <div className="modal-dialog modal-dialog-centered" role="document">
+                                                    <div className="modal-content">
+                                                        <div className="modal-header">
+                                                            <h5 className="modal-title" id="exampleModalLongTitle">Confirmation</h5>
+                                                            <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                                                                <span aria-hidden="true">&times;</span>
+                                                            </button>
+                                                        </div>
+                                                        <div className="modal-body">
+                                                            Are you sure you want to delete the excursion?
+                                                            </div>
+                                                        <div className="modal-footer">
+                                                            <button type="button" className="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                                            <button type="button" className="btn btn-primary" onClick={() => (this.context.deleteExcursion(this.state.excursion._id)).then(this.goBack)} data-dismiss="modal">Delete</button>
+                                                        </div>
+                                                    </div>
+                                                  </div>
+                                                </div>
 
                                             <div className="float-right">
                                                 <button type="button" className="btn btn-secondary btn-lg btn-secondary" onClick={this.goBack}>Cancel</button>
