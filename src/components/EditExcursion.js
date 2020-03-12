@@ -25,6 +25,7 @@ class EditExcursion extends React.Component {
         this.handleExcursionName = this.handleExcursionName.bind(this);
         this.handleExcursionDate = this.handleExcursionDate.bind(this);
         this.setMembersOfAddSection = this.setMembersOfAddSection.bind(this);
+
     }
 
     componentDidMount() {
@@ -105,11 +106,11 @@ class EditExcursion extends React.Component {
                                                 <div>
                                                     <br/>
                                                             
-                                                            Name: {member.name} Id: {member._id} 
+                                                            Name: {member.name} {member.surname} 
                                                             <span className="ml-2"></span>
                                                             <i className="fas fa-info-circle" data-toggle="collapse" data-target={"#collapseId" + member._id} role="button" aria-expanded="false" aria-controls={"#collapseId" + member._id}>
                                                             
-                                                            <div className="collapse" id={"collapseId" + member._id} font-family>
+                                                            <div className="collapse" style = {{padding: "20px", marginTop: "20px", fontFamily: "Verdana", fontWeight: "normal", fontSize: "12px"}} id={"collapseId" + member._id} font-family>
                                                                 <div className="card card-body">
                                                                     Name: {member.name}
                                                                     <br/>

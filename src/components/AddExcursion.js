@@ -18,7 +18,7 @@ class AddExcursion extends React.Component {
             validExcursionName: false,
             validExcursionDate: false
         }
-
+        
         this.cancelButton = this.cancelButton.bind(this);
         this.searchUsers = this.searchUsers.bind(this);
         this.handleExcursionName = this.handleExcursionName.bind(this);
@@ -45,7 +45,7 @@ class AddExcursion extends React.Component {
 
     searchUsers(event) {
         let usersFound = [];
-        event.target.value == "" ? usersFound = [] : usersFound = this.state.membersList.filter(member=> member.name.toUpperCase().includes(event.target.value.toUpperCase() || member.surname.toUpperCase().includes(event.target.value.toUpperCase())));
+        event.target.value == "" ? usersFound = [] : usersFound = this.state.membersList.filter(member=> member.name.toUpperCase().includes(event.target.value.toUpperCase()) || member.surname.toUpperCase().includes(event.target.value.toUpperCase()));
         usersFound = usersFound.slice(0,3);
         this.setState({ membersFound: usersFound });
     }
@@ -89,7 +89,7 @@ class AddExcursion extends React.Component {
 
                                             <div className="form-label-group">
                                                 <label for="inputDate">Date</label>
-                                                <input type="text" id="inputDate" className="form-control" onChange={this.handleExcursionDate} placeholder="Date" required />
+                                                <input type="date" id="inputDate" className="form-control" onChange={this.handleExcursionDate} placeholder="Date" required />
                                             </div>
 
                                             <label for="inputDate"> Search users</label>
@@ -106,17 +106,15 @@ class AddExcursion extends React.Component {
                                                 <label for="inputDate">Members that have joined:</label>
                                                 <br/>
                                                 {this.state.membersSelected.map(member =>
-                                                    <div class="list-group">
-                                                        {member.name} {member.surname}  
-                                                        <span className="ml-2"></span>
-                                                        <i className="fas fa-trash-alt" onClick = {()=>this.removeMemberFromExcursion(member)}></i>
+                                                    <div class="list-group" style = {{display: "inline"}}>
+                                                        {member.name} {member.surname}  <i className="fas fa-trash-alt" onClick = {()=>this.removeMemberFromExcursion(member)}></i>
                                                     </div>
                                                    
                                                 )}
                                             </div>
 
                                             <br />
-                                            <button type="button" className="btn btn-primary btn-lg" onClick = {()=>this.context.addExcursion(this.state.excursion, this.state.membersSelected)} disabled={this.state.submitDisabled}>Submit</button>
+                                            <button type="button"  className="btn btn-primary btn-lg" onClick = {()=>this.context.addExcursion(this.state.excursion, this.state.membersSelected)} disabled={this.state.submitDisabled}>Submit</button>
 
 
                                             <div className="float-right">
