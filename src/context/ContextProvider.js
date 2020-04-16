@@ -24,13 +24,17 @@ export class ContextProvider extends React.Component {
         this.getExcursionList = this.getExcursionList.bind(this);
         this.getExcursionInfo = this.getExcursionInfo.bind(this);
         this.editExcursion = this.editExcursion.bind(this);
-        this.processLogin = this.processLogin.bind(this);
     }
 
-    getMemberList() {
+    getMemberList(history) {
         return new Promise((resolve, reject) => {
             fetch('http://127.0.0.1:3001/members/list')
-                .then(res => res.json())
+                .then(res => {
+                    if (res.status == 200) {
+                    //history.push("/");
+                }
+                return res.json();
+                })
                 .then((json) => {
                     this.setState({ membersList: json });
                     resolve(json);
@@ -183,20 +187,6 @@ export class ContextProvider extends React.Component {
         })
     }
 
-    processLogin(email, password){
-            fetch('http://127.0.0.1:3001/login', {
-                method: 'POST',
-                body: JSON.stringify({
-                    email: email,
-                    password: password
-                }),
-                headers: {
-                    "Content-type": "application/json; charset=UTF-8"
-                }
-            })
-                .then(response => response.json());
-        
-    }
 
     render() {
         return (
@@ -204,7 +194,7 @@ export class ContextProvider extends React.Component {
                 value={{
                     ...this.state, getMemberList: this.getMemberList, getMemberInfo: this.getMemberInfo, editMember: this.editMember, deleteMember: this.deleteMember,
                     addMember: this.addMember, getExcursionList: this.getExcursionList, getExcursionInfo: this.getExcursionInfo, editExcursion: this.editExcursion,
-                    addExcursion: this.addExcursion, deleteExcursion: this.deleteExcursion, processLogin: this.processLogin
+                    addExcursion: this.addExcursion, deleteExcursion: this.deleteExcursion
                 }}
             >
 

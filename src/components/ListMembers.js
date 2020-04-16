@@ -14,9 +14,8 @@ class ListMembers extends React.Component {
     }
 
     componentDidMount() {
-        this.context.getMemberList();
+        this.context.getMemberList(this.props.history);
     }
-
 
 
     render() {

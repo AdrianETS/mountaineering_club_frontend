@@ -7,8 +7,43 @@ class Login extends React.Component {
 
     constructor(props) {
         super(props);
+        this.state = {
+            loginFailed: false
+        }
         this.handleEmailChange = this.handleEmailChange.bind(this);
         this.handlePasswordChange = this.handlePasswordChange.bind(this);
+    }
+
+    componentDidUpdate(){
+
+    }
+
+    processLogin(email, password) {
+        fetch('http://127.0.0.1:3001/login', {
+            method: 'POST',
+            body: JSON.stringify({
+                email: email,
+                password: password
+            }),
+            headers: {
+                "Content-type": "application/json; charset=UTF-8"
+            }
+        })
+            .then(response => {
+                if (response.status == 200) {
+                    this.setState({loginFailed: false});
+                    this.props.history.push("/");
+                    return response.json();
+                } else {
+                   this.setState({loginFailed: true}); 
+                   return response.json();
+                }
+                
+            })
+            .then(json => {
+                window.localStorage.setItem('token', json.token);
+                //window.localStorage.getItem('token') != "null" && this.props.history.push("/");
+            });
 
     }
 
@@ -41,7 +76,11 @@ class Login extends React.Component {
                                         <input type="password" id="inputPassword" className="form-control" onChange={this.handlePasswordChange} placeholder="Password" required />
                                         <label for="inputPassword">Password</label>
                                     </div>
-                                    <button className="btn btn-lg btn-primary btn-block text-uppercase" type="button" /* NEVER EVER USE TYPE SUBMIT */ onClick={(event)=> this.context.processLogin(this.state.email, this.state.password)}>Submit</button>  
+                                    <button className="btn btn-lg btn-primary btn-block text-uppercase" type="button" /* NEVER EVER USE TYPE = "SUBMIT" */ onClick={(event) => this.processLogin(this.state.email, this.state.password)}
+                                        data-toggle="modal" data-target="#loginFailedMessage">Submit</button>
+
+                                    {this.state.loginFailed && <p>Login failed</p>}
+                                    
                                 </form>
                             </div>
                         </div>

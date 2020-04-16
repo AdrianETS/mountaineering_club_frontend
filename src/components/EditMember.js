@@ -170,7 +170,7 @@ class EditMember extends React.Component {
                                                             </div>
                                                         <div className="modal-footer">
                                                             <button type="button" className="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                                                            <button type="button" className="btn btn-primary" onClick={() => (this.context.editMember(this.state.member)).then(this.props.history.push("/listmembers"))} data-dismiss="modal">Submit</button>
+                                                            <button type="button" className="btn btn-primary" onClick={() => this.context.editMember(this.state.member).then(()=>this.props.history.push("/listmembers"))} data-dismiss="modal">Submit</button>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -195,7 +195,7 @@ class EditMember extends React.Component {
                                                             </div>
                                                         <div className="modal-footer">
                                                             <button type="button" className="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                                                            <button type="button" className="btn btn-primary" onClick={() => (this.context.deleteMember(this.state.member._id)).then(this.goBack)} data-dismiss="modal">Delete</button>
+                                                            <button type="button" className="btn btn-primary" onClick={() => this.context.deleteMember(this.state.member._id).then(this.goBack)} data-dismiss="modal">Delete</button>
                                                         </div>
                                                     </div>
                                                 </div>

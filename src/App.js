@@ -26,7 +26,8 @@ class App extends React.Component {
         <ContextProvider>
           <Router>
             <Switch>
-              <Route path="/" exact component={Login} />
+              <Route path="/login" exact component={Login} />
+              <Route path="/" exact component={Dashboard} />
               <Route path="/editexcursion" exact component={EditExcursion} />
               <Route path="/listexcursions" exact component={ListExcursions} />
               <Route path="/listmembers" exact component={ListMembers} />
@@ -36,6 +37,7 @@ class App extends React.Component {
             </Switch>
           </Router>
         </ContextProvider>
+
       </div>
     )
   }
