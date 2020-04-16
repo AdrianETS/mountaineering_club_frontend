@@ -12,7 +12,7 @@ class Navbar extends React.Component {
             <div>
                 <nav className="navbar navbar-expand-lg navbar-light bg-light">
                     <div className="collapse navbar-collapse" itemID="navbarNavAltMarkup">
-                    <div className="dropdown">
+                    <div className="dropdown" style={{marginRight: "20px"}}>
                             <a href="#" className="dropdown-toggle" data-toggle="dropdown">Excursions</a>
                             <div className="dropdown-menu">
                                 <a className="nav-link active" href={"/#"}><Link to="/addexcursion">Add excursion</Link></a>

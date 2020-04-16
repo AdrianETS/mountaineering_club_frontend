@@ -3,6 +3,7 @@ import logo from './logo.svg';
 import './App.css';
 import Dashboard from "./components/Dashboard";
 import Navbar from "./components/Navbar";
+import Login from "./components/Login";
 import { ContextProvider } from './context/ContextProvider';
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import ListMembers from "./components/ListMembers";
@@ -25,7 +26,7 @@ class App extends React.Component {
         <ContextProvider>
           <Router>
             <Switch>
-              <Route path="/" exact component={Dashboard} />
+              <Route path="/" exact component={Login} />
               <Route path="/editexcursion" exact component={EditExcursion} />
               <Route path="/listexcursions" exact component={ListExcursions} />
               <Route path="/listmembers" exact component={ListMembers} />

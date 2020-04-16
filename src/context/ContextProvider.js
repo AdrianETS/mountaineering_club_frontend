@@ -24,6 +24,7 @@ export class ContextProvider extends React.Component {
         this.getExcursionList = this.getExcursionList.bind(this);
         this.getExcursionInfo = this.getExcursionInfo.bind(this);
         this.editExcursion = this.editExcursion.bind(this);
+        this.processLogin = this.processLogin.bind(this);
     }
 
     getMemberList() {
@@ -82,6 +83,7 @@ export class ContextProvider extends React.Component {
                     clubId: member.clubId,
                     licenseNumber: member.licenseNumber,
                     type: member.type,
+                    password: member.password,
                     responsibilityAgreementSigned: (member.responsibilityAgreementSigned === "true" && true) || false
 
                 }),
@@ -123,6 +125,7 @@ export class ContextProvider extends React.Component {
                     clubId: member.clubId,
                     licenseNumber: member.licenseNumber,
                     type: member.type,
+                    password: member.password,
                     responsibilityAgreementSigned: (member.responsibilityAgreementSigned === "true" && true) || false
                 }),
                 headers: {
@@ -180,13 +183,28 @@ export class ContextProvider extends React.Component {
         })
     }
 
+    processLogin(email, password){
+            fetch('http://127.0.0.1:3001/login', {
+                method: 'POST',
+                body: JSON.stringify({
+                    email: email,
+                    password: password
+                }),
+                headers: {
+                    "Content-type": "application/json; charset=UTF-8"
+                }
+            })
+                .then(response => response.json());
+        
+    }
+
     render() {
         return (
             <AppContext.Provider
                 value={{
                     ...this.state, getMemberList: this.getMemberList, getMemberInfo: this.getMemberInfo, editMember: this.editMember, deleteMember: this.deleteMember,
                     addMember: this.addMember, getExcursionList: this.getExcursionList, getExcursionInfo: this.getExcursionInfo, editExcursion: this.editExcursion,
-                    addExcursion: this.addExcursion, deleteExcursion: this.deleteExcursion
+                    addExcursion: this.addExcursion, deleteExcursion: this.deleteExcursion, processLogin: this.processLogin
                 }}
             >
 

@@ -15,7 +15,7 @@ class Dashboard extends React.Component {
         return (
             <div>
                 <Navbar/>                       
-                Welcome to Dashboard
+                <label style = {{margin: "20px"}}>Welcome to Dashboard</label>
         </div>
         )
     }

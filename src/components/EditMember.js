@@ -28,6 +28,7 @@ class EditMember extends React.Component {
         this.handleMemberLicenseMember = this.handleMemberLicenseMember.bind(this);
         this.handleMemberType = this.handleMemberType.bind(this);
         this.handleResponsibilityAgreementSigned = this.handleResponsibilityAgreementSigned.bind(this);
+        this.handleMemberPassword = this.handleMemberPassword.bind(this);
 
         this.goBack = this.goBack.bind(this);
         this.isMemberUpdated = this.isMemberUpdated.bind(this);
@@ -38,6 +39,7 @@ class EditMember extends React.Component {
     componentDidMount() {
         this.context.getMemberInfo(this.state.id)
             .then(member => this.setState({ member, originalMember: member }));
+           // .then(member => this.setState({ member: { ...this.state.member, password: "" } }));
 
     }
 
@@ -79,6 +81,10 @@ class EditMember extends React.Component {
 
     handleResponsibilityAgreementSigned(event) {
         this.setState({ member: { ...this.state.member, responsibilityAgreementSigned: event.target.value } });
+    }
+
+    handleMemberPassword(event) {
+        this.setState({ member: { ...this.state.member, password: event.target.value } });
     }
 
     goBack() {
@@ -132,17 +138,22 @@ class EditMember extends React.Component {
 
                                             </div>
                                             <div className="form-label-group">
+                                                <label for="inputType">Password</label>
+                                                <input type="password" id="inputPassword" className="form-control" onChange={this.handleMemberPassword} placeholder="Enter new password" disabled={!this.state.editEnabled} required />
+
+                                            </div>
+                                            <div className="form-label-group">
                                                 <label for="inputResponsibilityAgreementSigned">Responsibility agreement signed?</label>
                                                 <input type="text" id="inputResponsibilityAgreementSigned" className="form-control" value={this.state.member.responsibilityAgreementSigned} onChange={this.handleResponsibilityAgreementSigned} placeholder="Responsibility agreement signed" disabled={!this.state.editEnabled} required />
                                                 <br />
                                             </div>
 
 
-                                            <button type="button" className="btn btn-success btn-lg" onClick={this.enableEdit}>Edit user</button>
+                                            <button type="button" className="btn btn-success btn-lg" style ={{marginRight: "120px"}} onClick={this.enableEdit}>Edit user</button>
 
 
 
-                                            <button type="button" className="btn btn-primary btn-lg" data-toggle="modal" data-target="#editModal" disabled={!this.state.editEnabled} onClick={this.isMemberUpdated} >Submit</button>
+                                            <button type="button" className="btn btn-primary btn-lg" style ={{marginRight: "120px"}} data-toggle="modal" data-target="#editModal" disabled={!this.state.editEnabled} onClick={this.isMemberUpdated} >Submit</button>
 
 
                                             <div className="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalTitle" aria-hidden="true">
@@ -159,7 +170,7 @@ class EditMember extends React.Component {
                                                             </div>
                                                         <div className="modal-footer">
                                                             <button type="button" className="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                                                            <button type="button" className="btn btn-primary" onClick={() => (this.context.editMember(this.state.member)).then(()=>this.props.history.push("/editmember"))} data-dismiss="modal">Submit</button>
+                                                            <button type="button" className="btn btn-primary" onClick={() => (this.context.editMember(this.state.member)).then(this.props.history.push("/listmembers"))} data-dismiss="modal">Submit</button>
                                                         </div>
                                                     </div>
                                                 </div>

@@ -146,7 +146,7 @@ class EditExcursion extends React.Component {
                                             
 
                                             <br/>                    
-                                            <button type="button" className="btn btn-primary btn-lg" onClick = {()=>(this.context.editExcursion(this.state.excursion, this.state.usersInExcursion)).then(()=>this.goBack())}>Submit</button>
+                                            <button type="button" style = {{marginRight: "150px"}} className="btn btn-primary btn-lg" onClick = {()=>(this.context.editExcursion(this.state.excursion, this.state.usersInExcursion)).then(()=>this.goBack())}>Submit</button>
                                             
                                             <button type="button" className="btn btn-danger btn-lg" data-toggle="modal" data-target="#deleteModal">Delete
                                             </button>

@@ -20,6 +20,7 @@ class AddMember extends React.Component{
         this.handleMemberLicenseMember = this.handleMemberLicenseMember.bind(this);
         this.handleMemberType = this.handleMemberType.bind(this);
         this.handleResponsibilityAgreementSigned = this.handleResponsibilityAgreementSigned.bind(this);
+        this.handleMemberPassword = this.handleMemberPassword.bind(this);
 
         this.cancelButton = this.cancelButton.bind(this);
     }
@@ -50,6 +51,10 @@ class AddMember extends React.Component{
 
     handleResponsibilityAgreementSigned(event) {
         this.setState({ member: { ...this.state.member, responsibilityAgreementSigned: event.target.value } });
+    }
+
+    handleMemberPassword(event) {
+        this.setState({ member: { ...this.state.member, password: event.target.value } });
     }
 
     cancelButton() {
@@ -83,7 +88,7 @@ class AddMember extends React.Component{
                                             </div>
                                             <div className="form-label-group">
                                                 <label for="inputBirthDate">Birth date</label>
-                                                <input type="text" id="inputBirthDate" className="form-control" onChange={this.handleMemberBirthDate} placeholder="Birth date" required />
+                                                <input type="date" id="inputBirthDate" className="form-control" onChange={this.handleMemberBirthDate} placeholder="Birth date" required />
 
                                             </div>
                                             <div className="form-label-group">
@@ -102,13 +107,18 @@ class AddMember extends React.Component{
 
                                             </div>
                                             <div className="form-label-group">
+                                                <label for="inputType">Password</label>
+                                                <input type="password" id="inputPassword" className="form-control" onChange={this.handleMemberPassword} placeholder="Type" required />
+
+                                            </div>
+                                            <div className="form-label-group">
                                                 <label for="inputResponsibilityAgreementSigned">Responsibility agreement signed?</label>
                                                 <input type="text" id="inputResponsibilityAgreementSigned" className="form-control" onChange={this.handleResponsibilityAgreementSigned} placeholder="Responsibility agreement signed" required />
                                                 <br />
                                             </div>
 
 
-                                            <button type="button" className="btn btn-primary btn-lg" onClick = {()=>this.context.addMember(this.state.member)}>Submit</button>
+                                            <button type="button" className="btn btn-primary btn-lg" onClick = {()=>(this.context.addMember(this.state.member)).then(this.props.history.push("/listmembers"))}>Submit</button>
 
 
                                             <div className="float-right">
