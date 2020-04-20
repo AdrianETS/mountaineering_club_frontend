@@ -14,6 +14,7 @@ class ListMembers extends React.Component {
     }
 
     componentDidMount() {
+        this.context.checkToken(this);
         this.context.getMemberList(this.props.history);
     }
 
@@ -22,17 +23,17 @@ class ListMembers extends React.Component {
         return (<div>
             <Navbar />
             <h5>List of members:</h5>
-            <br/><div>
+            <br /><div>
                 <ul>
-                {this.context.membersList.map(member =>
-                    <div>
-                        <li> <Link to={{ pathname: '/editmember', state: { id: member._id}}}>
-                            {member.name} {member.surname} 
-                            </Link>                      
-                        </li>
-                    </div>
+                    {this.context.membersList.map(member =>
+                        <div>
+                            <li> <Link to={{ pathname: '/editmember', state: { id: member._id } }}>
+                                {member.name} {member.surname}
+                            </Link>
+                            </li>
+                        </div>
 
-                )}
+                    )}
                 </ul>
             </div>
         </div>);

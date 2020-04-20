@@ -30,6 +30,11 @@ export class ContextProvider extends React.Component {
         return window.localStorage.getItem('token');
     }
 
+    checkToken(ctx){
+        if(!this.getTokenFromLocalStorage()) 
+            ctx.props.history.push("/login");
+    }
+
     getMemberList(history) {
         return new Promise((resolve, reject) => {
             fetch('http://127.0.0.1:3001/members/list?token=' + this.getTokenFromLocalStorage())
@@ -199,7 +204,8 @@ export class ContextProvider extends React.Component {
                 value={{
                     ...this.state, getMemberList: this.getMemberList, getMemberInfo: this.getMemberInfo, editMember: this.editMember, deleteMember: this.deleteMember,
                     addMember: this.addMember, getExcursionList: this.getExcursionList, getExcursionInfo: this.getExcursionInfo, editExcursion: this.editExcursion,
-                    addExcursion: this.addExcursion, deleteExcursion: this.deleteExcursion, getTokenFromLocalStorage: this.getTokenFromLocalStorage
+                    addExcursion: this.addExcursion, deleteExcursion: this.deleteExcursion, getTokenFromLocalStorage: this.getTokenFromLocalStorage,
+                    checkToken:this.checkToken
                 }}
             >
 

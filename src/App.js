@@ -31,7 +31,7 @@ class App extends React.Component {
               <Route path="/" exact component={Dashboard} />
               <Route path="/editexcursion" exact component={EditExcursion} />
               <Route path="/listexcursions" exact component={ListExcursions} />
-              <SecuredRoute path="/members/list" exact component={ListMembers} />
+              <Route path="/members/list" exact component={ListMembers} />
               <Route path="/members/edit" exact component={EditMember} />
               <Route path="/members/add" exact component={AddMember} />
               <Route path="/addexcursion" exact component={AddExcursion} />
