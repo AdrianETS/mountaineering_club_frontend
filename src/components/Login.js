@@ -14,7 +14,7 @@ class Login extends React.Component {
         this.handlePasswordChange = this.handlePasswordChange.bind(this);
     }
 
-    componentDidUpdate(){
+    componentDidUpdate() {
 
     }
 
@@ -30,21 +30,16 @@ class Login extends React.Component {
             }
         })
             .then(response => {
-                if (response.status == 200) {
-                    this.setState({loginFailed: false});
-                    this.props.history.push("/");
-                    return response.json();
-                } else {
-                   this.setState({loginFailed: true}); 
-                   return response.json();
-                }
-                
-            })
-            .then(json => {
-                window.localStorage.setItem('token', json.token);
-                //window.localStorage.getItem('token') != "null" && this.props.history.push("/");
+                response.json().then(json => {
+                    if (response.status == 200) {
+                        window.localStorage.setItem('token', json.token);
+                        this.setState({ loginFailed: false });
+                        this.props.history.push("/");
+                    } else {
+                        this.setState({ loginFailed: true });
+                    }
+                })
             });
-
     }
 
     handleEmailChange(event) {
@@ -80,7 +75,7 @@ class Login extends React.Component {
                                         data-toggle="modal" data-target="#loginFailedMessage">Submit</button>
 
                                     {this.state.loginFailed && <p>Login failed</p>}
-                                    
+
                                 </form>
                             </div>
                         </div>

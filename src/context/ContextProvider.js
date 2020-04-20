@@ -26,13 +26,15 @@ export class ContextProvider extends React.Component {
         this.editExcursion = this.editExcursion.bind(this);
     }
 
-    getTokenFromLocalStorage(){
+    getTokenFromLocalStorage() {
         return window.localStorage.getItem('token');
     }
 
-    checkToken(ctx){
-        if(!this.getTokenFromLocalStorage()) 
+    checkToken(ctx) {
+        if (!this.getTokenFromLocalStorage()){
             ctx.props.history.push("/login");
+        } 
+            
     }
 
     getMemberList(history) {
@@ -52,20 +54,32 @@ export class ContextProvider extends React.Component {
         })
     }
 
-    getExcursionList() {
+    getExcursionList(history) {
         return new Promise((resolve, reject) => {
-            fetch('http://127.0.0.1:3001/excursions/list')
-                .then(res => res.json())
+            fetch('http://127.0.0.1:3001/excursions/list?token=' + this.getTokenFromLocalStorage())
+                .then(res => {
+                    if (res.status != 200) {
+                        history.push("/login");
+                        reject();
+                    }
+                    return res.json();
+                })
                 .then((json) => {
                     this.setState({ excursionList: json });
                 })
         })
     }
 
-    getMemberInfo(id) {
+    getMemberInfo(history, id) {
         return new Promise((resolve, reject) => {
-            fetch('http://127.0.0.1:3001/members/' + id)
-                .then(res => res.json())
+            fetch('http://127.0.0.1:3001/members/' + id + '?token=' + this.getTokenFromLocalStorage())
+                .then(res => {
+                    if (res.status != 200) {
+                        history.push("/login");
+                        reject();
+                    }
+                    return res.json();
+                })
                 .then((json) => {
                     this.setState({ memberId: id });
                     this.setState({ selectedMember: json });
@@ -74,10 +88,16 @@ export class ContextProvider extends React.Component {
         })
     }
 
-    getExcursionInfo(id) {
+    getExcursionInfo(history, id) {
         return new Promise((resolve, reject) => {
-            fetch('http://127.0.0.1:3001/excursions/' + id)
-                .then(res => res.json())
+            fetch('http://127.0.0.1:3001/excursions/' + id + '?token=' + this.getTokenFromLocalStorage())
+                .then(res => {
+                    if (res.status != 200) {
+                        history.push("/login");
+                        reject();
+                    }
+                    return res.json();
+                })
                 .then((json) => {
                     this.setState({ excursionId: id });
                     this.setState({ selectedExcursion: json });
@@ -127,9 +147,9 @@ export class ContextProvider extends React.Component {
         })
     }
 
-    editMember(member) {
+    editMember(history, member) {
         return new Promise((resolve, reject) => {
-            fetch('http://127.0.0.1:3001/members', {
+            fetch('http://127.0.0.1:3001/members?token=' + this.getTokenFromLocalStorage(), {
                 method: 'PUT',
                 body: JSON.stringify({
                     _id: member._id,
@@ -146,8 +166,13 @@ export class ContextProvider extends React.Component {
                     "Content-type": "application/json; charset=UTF-8"
                 }
             })
-
-                .then(response => response.json())
+                .then(res => {
+                    if (res.status != 200) {
+                        history.push("/login");
+                        reject();
+                    }
+                    return res.json();
+                })
                 .then(json => resolve(json));
 
 
@@ -205,7 +230,7 @@ export class ContextProvider extends React.Component {
                     ...this.state, getMemberList: this.getMemberList, getMemberInfo: this.getMemberInfo, editMember: this.editMember, deleteMember: this.deleteMember,
                     addMember: this.addMember, getExcursionList: this.getExcursionList, getExcursionInfo: this.getExcursionInfo, editExcursion: this.editExcursion,
                     addExcursion: this.addExcursion, deleteExcursion: this.deleteExcursion, getTokenFromLocalStorage: this.getTokenFromLocalStorage,
-                    checkToken:this.checkToken
+                    checkToken: this.checkToken
                 }}
             >
 

@@ -11,7 +11,9 @@ class Dashboard extends React.Component {
 
     }
 
-    
+    componentDidMount(){
+        this.context.checkToken(this);
+    }
 
     render() {
         return (

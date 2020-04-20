@@ -13,7 +13,8 @@ class ListExcursions extends React.Component {
     }
 
     componentDidMount() {
-        this.context.getExcursionList();
+        this.context.checkToken(this);
+        this.context.getExcursionList(this.props.history);
     }
 
 
@@ -26,7 +27,7 @@ class ListExcursions extends React.Component {
                 <ul>
                 {this.context.excursionList.map(excursion =>
                     <div>
-                        <li> <Link to={{ pathname: '/editexcursion', state: { id: excursion._id}}}>
+                        <li> <Link to={{ pathname: '/excursions/edit', state: { id: excursion._id}}}>
                             {excursion.name} 
                             </Link>                      
                         </li>

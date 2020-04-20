@@ -29,12 +29,12 @@ class App extends React.Component {
             <Switch>
               <Route path="/login" exact component={Login} />
               <Route path="/" exact component={Dashboard} />
-              <Route path="/editexcursion" exact component={EditExcursion} />
-              <Route path="/listexcursions" exact component={ListExcursions} />
+              <Route path="/excursions/edit" exact component={EditExcursion} />
+              <Route path="/excursions/list" exact component={ListExcursions} />
               <Route path="/members/list" exact component={ListMembers} />
               <Route path="/members/edit" exact component={EditMember} />
               <Route path="/members/add" exact component={AddMember} />
-              <Route path="/addexcursion" exact component={AddExcursion} />
+              <Route path="/excursions/add" exact component={AddExcursion} />
             </Switch>
           </Router>
         </ContextProvider>

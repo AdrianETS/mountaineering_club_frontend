@@ -29,7 +29,8 @@ class EditExcursion extends React.Component {
     }
 
     componentDidMount() {
-        this.context.getExcursionInfo(this.state.id)
+        this.context.checkToken(this);
+        this.context.getExcursionInfo(this.props.history, this.state.id)
         .then(excursion => this.setState({ excursion: excursion, usersInExcursion: excursion.members_info}))
         .then(()=> this.context.getMemberList())
         .then(()=> this.setMembersOfAddSection());        
@@ -46,7 +47,7 @@ class EditExcursion extends React.Component {
     }
 
     goBack() {
-        this.props.history.push("/listexcursions");
+        this.props.history.push("/excursions/list");
     }
 
     handleExcursionName(event){

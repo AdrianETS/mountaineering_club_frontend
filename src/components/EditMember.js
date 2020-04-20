@@ -37,7 +37,8 @@ class EditMember extends React.Component {
     }
 
     componentDidMount() {
-        this.context.getMemberInfo(this.state.id)
+        this.context.checkToken(this);
+        this.context.getMemberInfo(this.props.history, this.state.id)
             .then(member => this.setState({ member, originalMember: member }));
            // .then(member => this.setState({ member: { ...this.state.member, password: "" } }));
 
@@ -88,7 +89,7 @@ class EditMember extends React.Component {
     }
 
     goBack() {
-        this.props.history.push("/listmembers");
+        this.props.history.push("/members/list");
     }
 
     render() {
@@ -170,7 +171,7 @@ class EditMember extends React.Component {
                                                             </div>
                                                         <div className="modal-footer">
                                                             <button type="button" className="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                                                            <button type="button" className="btn btn-primary" onClick={() => this.context.editMember(this.state.member).then(()=>this.props.history.push("/listmembers"))} data-dismiss="modal">Submit</button>
+                                                            <button type="button" className="btn btn-primary" onClick={() => this.context.editMember(this.props.history, this.state.member).then(()=>this.props.history.push("members/list"))} data-dismiss="modal">Submit</button>
                                                         </div>
                                                     </div>
                                                 </div>

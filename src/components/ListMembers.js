@@ -27,7 +27,7 @@ class ListMembers extends React.Component {
                 <ul>
                     {this.context.membersList.map(member =>
                         <div>
-                            <li> <Link to={{ pathname: '/editmember', state: { id: member._id } }}>
+                            <li> <Link to={{ pathname: '/members/edit', state: { id: member._id } }}>
                                 {member.name} {member.surname}
                             </Link>
                             </li>
