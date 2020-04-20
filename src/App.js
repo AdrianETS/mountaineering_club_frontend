@@ -12,6 +12,7 @@ import AddMember from "./components/AddMember";
 import EditExcursion from './components/EditExcursion';
 import ListExcursions from './components/ListExcursions';
 import AddExcursion from "./components/AddExcursion";
+import SecuredRoute from "./components/SecuredRoute";
 
 class App extends React.Component {
 
@@ -30,9 +31,9 @@ class App extends React.Component {
               <Route path="/" exact component={Dashboard} />
               <Route path="/editexcursion" exact component={EditExcursion} />
               <Route path="/listexcursions" exact component={ListExcursions} />
-              <Route path="/listmembers" exact component={ListMembers} />
-              <Route path="/editmember" exact component={EditMember} />
-              <Route path="/addmember" exact component={AddMember} />
+              <SecuredRoute path="/members/list" exact component={ListMembers} />
+              <Route path="/members/edit" exact component={EditMember} />
+              <Route path="/members/add" exact component={AddMember} />
               <Route path="/addexcursion" exact component={AddExcursion} />
             </Switch>
           </Router>

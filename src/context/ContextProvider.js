@@ -26,14 +26,19 @@ export class ContextProvider extends React.Component {
         this.editExcursion = this.editExcursion.bind(this);
     }
 
+    getTokenFromLocalStorage(){
+        return window.localStorage.getItem('token');
+    }
+
     getMemberList(history) {
         return new Promise((resolve, reject) => {
-            fetch('http://127.0.0.1:3001/members/list')
+            fetch('http://127.0.0.1:3001/members/list?token=' + this.getTokenFromLocalStorage())
                 .then(res => {
-                    if (res.status == 200) {
-                    //history.push("/");
-                }
-                return res.json();
+                    if (res.status != 200) {
+                        history.push("/login");
+                        reject();
+                    }
+                    return res.json();
                 })
                 .then((json) => {
                     this.setState({ membersList: json });
@@ -194,7 +199,7 @@ export class ContextProvider extends React.Component {
                 value={{
                     ...this.state, getMemberList: this.getMemberList, getMemberInfo: this.getMemberInfo, editMember: this.editMember, deleteMember: this.deleteMember,
                     addMember: this.addMember, getExcursionList: this.getExcursionList, getExcursionInfo: this.getExcursionInfo, editExcursion: this.editExcursion,
-                    addExcursion: this.addExcursion, deleteExcursion: this.deleteExcursion
+                    addExcursion: this.addExcursion, deleteExcursion: this.deleteExcursion, getTokenFromLocalStorage: this.getTokenFromLocalStorage
                 }}
             >
 
