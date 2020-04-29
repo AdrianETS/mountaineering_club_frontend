@@ -7,10 +7,17 @@ class Navbar extends React.Component {
         super(props);
     }
 
+    logOut(){
+        window.localStorage.removeItem('token');
+        this.props.history.push("/login");
+        
+    }
+
     render() {
         return (
             <div>
                 <nav className="navbar navbar-expand-lg navbar-light bg-light">
+                <a className="nav-link active" href={"/#"}><Link to="/">Home</Link></a>
                     <div className="collapse navbar-collapse" itemID="navbarNavAltMarkup">
                     <div className="dropdown" style={{marginRight: "20px"}}>
                             <a href="#" className="dropdown-toggle" data-toggle="dropdown">Excursions</a>
@@ -29,6 +36,7 @@ class Navbar extends React.Component {
                             </div>
                         </div>
                     </div>
+                    <button type="button" style = {{marginRight: "50px"}} class="btn btn-primary btn-sm" onClick = {()=>this.logOut()}>Log out</button>
                 </nav>
             </div>
         );

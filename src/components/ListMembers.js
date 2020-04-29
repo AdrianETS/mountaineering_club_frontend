@@ -21,7 +21,7 @@ class ListMembers extends React.Component {
 
     render() {
         return (<div>
-            <Navbar />
+            <Navbar history = {this.props.history}/>
             <h5>List of members:</h5>
             <br /><div>
                 <ul>

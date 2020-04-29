@@ -74,7 +74,7 @@ class EditExcursion extends React.Component {
     render() {
         return (
             <div>
-                <Navbar />
+                <Navbar history = {this.props.history}/>
                 <div>
                     <div className="container">
                         <div className="row">
@@ -147,7 +147,7 @@ class EditExcursion extends React.Component {
                                             
 
                                             <br/>                    
-                                            <button type="button" style = {{marginRight: "150px"}} className="btn btn-primary btn-lg" onClick = {()=>(this.context.editExcursion(this.state.excursion, this.state.usersInExcursion)).then(()=>this.goBack())}>Submit</button>
+                                            <button type="button" style = {{marginRight: "150px"}} className="btn btn-primary btn-lg" onClick = {()=>this.context.editExcursion(this.props.history, this.state.excursion, this.state.usersInExcursion).then(()=>this.goBack())}>Submit</button>
                                             
                                             <button type="button" className="btn btn-danger btn-lg" data-toggle="modal" data-target="#deleteModal">Delete
                                             </button>
@@ -166,7 +166,7 @@ class EditExcursion extends React.Component {
                                                             </div>
                                                         <div className="modal-footer">
                                                             <button type="button" className="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                                                            <button type="button" className="btn btn-primary" onClick={() => (this.context.deleteExcursion(this.state.excursion._id)).then(this.goBack)} data-dismiss="modal">Delete</button>
+                                                            <button type="button" className="btn btn-primary" onClick={() => this.context.deleteExcursion(this.props.history, this.state.excursion._id).then(this.goBack)} data-dismiss="modal">Delete</button>
                                                         </div>
                                                     </div>
                                                   </div>

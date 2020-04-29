@@ -1,6 +1,7 @@
 import React from 'react';
 import {AppContext} from './../context/ContextProvider';
 import Navbar from './Navbar';
+import EventCalendar from './EventCalendar';
 
 class Dashboard extends React.Component {
 
@@ -18,8 +19,9 @@ class Dashboard extends React.Component {
     render() {
         return (
             <div>
-                <Navbar/>                       
-                <label style = {{margin: "20px"}}>Welcome to Dashboard</label>
+                <Navbar history = {this.props.history}/>  
+                <br/>                     
+                <EventCalendar history = {this.props.history}/>
         </div>
         )
     }

@@ -21,7 +21,7 @@ class ListExcursions extends React.Component {
 
     render() {
         return (<div>
-            <Navbar />
+            <Navbar history = {this.props.history}/>
             <h5>List of excursions:</h5>
             <br/><div>
                 <ul>

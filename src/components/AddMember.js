@@ -64,7 +64,7 @@ class AddMember extends React.Component{
     render(){
         return (
             <div>
-            <Navbar/>
+            <Navbar history = {this.props.history}/>
             <div>
                     <div className="container">
                         <div className="row">
@@ -118,7 +118,7 @@ class AddMember extends React.Component{
                                             </div>
 
 
-                                            <button type="button" className="btn btn-primary btn-lg" onClick = {()=>(this.context.addMember(this.state.member)).then(this.props.history.push("/listmembers"))}>Submit</button>
+                                            <button type="button" className="btn btn-primary btn-lg" onClick = {()=>this.context.addMember(this.props.history, this.state.member).then(this.props.history.push("/listmembers"))}>Submit</button>
 
 
                                             <div className="float-right">

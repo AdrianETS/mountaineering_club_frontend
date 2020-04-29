@@ -96,7 +96,7 @@ class EditMember extends React.Component {
 
         return (
             <div>
-                <Navbar />
+                <Navbar history = {this.props.history}/>
                 <div>
                     <div className="container">
                         <div className="row">
@@ -196,7 +196,7 @@ class EditMember extends React.Component {
                                                             </div>
                                                         <div className="modal-footer">
                                                             <button type="button" className="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                                                            <button type="button" className="btn btn-primary" onClick={() => this.context.deleteMember(this.state.member._id).then(this.goBack)} data-dismiss="modal">Delete</button>
+                                                            <button type="button" className="btn btn-primary" onClick={() => this.context.deleteMember(this.props.history, this.state.member._id).then(this.goBack)} data-dismiss="modal">Delete</button>
                                                         </div>
                                                     </div>
                                                 </div>

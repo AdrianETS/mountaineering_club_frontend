@@ -27,7 +27,7 @@ class AddExcursion extends React.Component {
     }
 
     componentDidMount() {
-        this.context.getMemberList().
+        this.context.getMemberList(this.props.history).
             then(() => this.setState({ membersList: this.context.membersList }));
     }
 
@@ -64,13 +64,13 @@ class AddExcursion extends React.Component {
     }
 
     cancelButton() {
-        this.props.history.push("/listexcursions");
+        this.props.history.push("/excursions/list");
     }
 
     render() {
         return (
             <div>
-                <Navbar />
+                <Navbar history = {this.props.history}/>
                 <div>
                     <div className="container">
                         <div className="row">
@@ -114,7 +114,7 @@ class AddExcursion extends React.Component {
                                             </div>
 
                                             <br />
-                                            <button type="button"  className="btn btn-primary btn-lg" onClick = {()=>this.context.addExcursion(this.state.excursion, this.state.membersSelected)} disabled={this.state.submitDisabled}>Submit</button>
+                                            <button type="button"  className="btn btn-primary btn-lg" onClick = {()=>this.context.addExcursion(this.props.history, this.state.excursion, this.state.membersSelected).then(()=>this.props.history.push("/excursions/list"))} disabled={this.state.submitDisabled}>Submit</button>
 
 
                                             <div className="float-right">

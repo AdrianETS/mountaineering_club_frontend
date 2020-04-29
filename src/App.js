@@ -13,6 +13,7 @@ import EditExcursion from './components/EditExcursion';
 import ListExcursions from './components/ListExcursions';
 import AddExcursion from "./components/AddExcursion";
 import SecuredRoute from "./components/SecuredRoute";
+import EventCalendar from "./components/EventCalendar";
 
 class App extends React.Component {
 

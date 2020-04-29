@@ -31,10 +31,10 @@ export class ContextProvider extends React.Component {
     }
 
     checkToken(ctx) {
-        if (!this.getTokenFromLocalStorage()){
+        if (!this.getTokenFromLocalStorage()) {
             ctx.props.history.push("/login");
-        } 
-            
+        }
+
     }
 
     getMemberList(history) {
@@ -66,6 +66,7 @@ export class ContextProvider extends React.Component {
                 })
                 .then((json) => {
                     this.setState({ excursionList: json });
+                    resolve(json);
                 })
         })
     }
@@ -106,9 +107,9 @@ export class ContextProvider extends React.Component {
         })
     }
 
-    addMember(member) {
+    addMember(history, member) {
         return new Promise((resolve, reject) => {
-            fetch('http://127.0.0.1:3001/members', {
+            fetch('http://127.0.0.1:3001/members?token=' + this.getTokenFromLocalStorage(), {
                 method: 'POST',
                 body: JSON.stringify({
                     name: member.name,
@@ -125,14 +126,21 @@ export class ContextProvider extends React.Component {
                     "Content-type": "application/json; charset=UTF-8"
                 }
             })
-                .then(response => response.json());
+                .then(res => {
+                    if (res.status != 200) {
+                        history.push("/login");
+                        reject();
+                    }
+                    return res.json();
+                })
+                .then(json => resolve(json));
         })
     }
 
-    addExcursion(excursion, users) {
+    addExcursion(history, excursion, users) {
         let usersAdded = users.map(member => member._id);
         return new Promise((resolve, reject) => {
-            fetch('http://127.0.0.1:3001/excursions', {
+            fetch('http://127.0.0.1:3001/excursions?token=' + this.getTokenFromLocalStorage(), {
                 method: 'POST',
                 body: JSON.stringify({
                     name: excursion.name,
@@ -143,7 +151,14 @@ export class ContextProvider extends React.Component {
                     "Content-type": "application/json; charset=UTF-8"
                 }
             })
-                .then(response => response.json());
+                .then(res => {
+                    if (res.status != 200) {
+                        history.push("/login");
+                        reject();
+                    }
+                    return res.json();
+                })
+                .then(json => resolve(json));
         })
     }
 
@@ -179,10 +194,10 @@ export class ContextProvider extends React.Component {
         })
     }
 
-    editExcursion(excursion, usersInExcursion) {
+    editExcursion(history, excursion, usersInExcursion) {
         let usersIdsAdded = usersInExcursion.map(user => user._id);
         return new Promise((resolve, reject) => {
-            fetch('http://127.0.0.1:3001/excursions', {
+            fetch('http://127.0.0.1:3001/excursions?token=' + this.getTokenFromLocalStorage(), {
                 method: 'PUT',
                 body: JSON.stringify({
                     _id: excursion._id,
@@ -195,30 +210,48 @@ export class ContextProvider extends React.Component {
                 }
             })
 
-                .then(response => response.json())
+                .then(res => {
+                    if (res.status != 200) {
+                        history.push("/login");
+                        reject();
+                    }
+                    return res.json();
+                })
                 .then(json => resolve(json));
 
 
         })
     }
 
-    deleteMember(id) {
+    deleteMember(history, id) {
         return new Promise((resolve, reject) => {
-            fetch('http://127.0.0.1:3001/members/delete/' + id)
-                .then(res => res.json())
+            fetch('http://127.0.0.1:3001/members/delete/' + id + '?token=' + this.getTokenFromLocalStorage())
+                /*.then(res => res.json())
                 .then(() => {
                     resolve();
+                })*/
+                .then(res => {
+                    if (res.status != 200) {
+                        history.push("/login");
+                        reject();
+                    }
+                    return res.json();
                 })
+                .then(json => resolve(json));
         })
     }
 
-    deleteExcursion(id) {
+    deleteExcursion(history, id) {
         return new Promise((resolve, reject) => {
-            fetch('http://127.0.0.1:3001/excursions/delete/' + id)
-                .then(res => res.json())
-                .then(() => {
-                    resolve();
+            fetch('http://127.0.0.1:3001/excursions/delete/' + id + '?token=' + this.getTokenFromLocalStorage())
+                .then(res => {
+                    if (res.status != 200) {
+                        history.push("/login");
+                        reject();
+                    }
+                    return res.json();
                 })
+                .then(json => resolve(json));
         })
     }
 
